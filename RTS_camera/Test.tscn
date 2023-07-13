@@ -1,0 +1,43 @@
+[gd_scene load_steps=8 format=3 uid="uid://c7adbmsuqm6h"]
+
+[ext_resource type="PackedScene" uid="uid://bs1xxn1s501uq" path="res://Rts_camera/Rts_camera.tscn" id="1_20ye3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5kbcl"]
+albedo_color = Color(0.945098, 0, 0.101961, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_crdrl"]
+material = SubResource("StandardMaterial3D_5kbcl")
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_itn2b"]
+
+[sub_resource type="Sky" id="Sky_d1np4"]
+sky_material = SubResource("ProceduralSkyMaterial_itn2b")
+
+[sub_resource type="Environment" id="Environment_4w413"]
+background_mode = 2
+sky = SubResource("Sky_d1np4")
+ambient_light_color = Color(0.560784, 0.509804, 0.517647, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qi74b"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("1_20ye3")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 0.953206, 0.30232, 0, -0.30232, 0.953206, 0, -3.94994, 0)
+mesh = SubResource("BoxMesh_crdrl")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.555991, 0.831188, 0, -0.831188, 0.555991, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4w413")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
+transform = Transform3D(4.525, 0, 0, 0, 4.525, 0, 0, 0, 4.525, 0, -6.17903, -0.00131297)
+mesh = SubResource("PlaneMesh_qi74b")
