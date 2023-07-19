@@ -13,6 +13,8 @@ public partial class RTSCameraController : CharacterBody3D {
 	public Vector2 zoomLimit = new Vector2(10,30);
 	[Export]
 	public float scroolSpeed = 2f;
+	[Export]
+	public float rotationAmount = 45f; // degree
 
 	public Vector2 MousePosition;
 	public Vector2 ScreenSize; // Size of the game window.
@@ -21,6 +23,7 @@ public partial class RTSCameraController : CharacterBody3D {
 
 		Vector3 velocity = Velocity;
 		Vector3 move_direction = Vector3.Zero;
+		Transform3D transform = Transform;
 
 		MousePosition = GetViewport().GetMousePosition();
 		ScreenSize = GetViewport().GetVisibleRect().Size;
@@ -53,12 +56,33 @@ public partial class RTSCameraController : CharacterBody3D {
 		if (MousePosition.X >= ScreenSize.X - ScreenEdgeBorderThickness) {
 			move_direction.X = 1;
 		}
+
 		// Mouse Camera Movement
-		if (Input.IsActionJustPressed("MouseMove")) {
-			Input.MouseMode = Input.MouseModeEnum.Hidden;
+		if (Input.IsActionPressed("MouseMove")) {
+			if (MousePosition.Y <= ScreenSize.Y/2 - ScreenEdgeBorderThickness) {
+				move_direction.Z = -1;
+			}
+			if (MousePosition.Y >= ScreenSize.Y/2 + ScreenEdgeBorderThickness) {
+				move_direction.Z = 1;
+			}
+			if (MousePosition.X <= ScreenSize.X/2 - ScreenEdgeBorderThickness) {
+				move_direction.X = -1;
+			}
+			if (MousePosition.X >= ScreenSize.X/2 + ScreenEdgeBorderThickness) {
+				move_direction.X = 1;
+			}
 		}
-		if (Input.IsActionJustReleased("MouseMove")) {
-			Input.MouseMode = Input.MouseModeEnum.Visible;
+
+		// Camera Rotation
+		if (Input.IsActionJustPressed("rotation_left")){
+			Vector3 axis = new Vector3(0, 1, 0); // Or Vector3.Right
+			transform.Basis = transform.Basis.Rotated(axis, rotationAmount * (float)Math.PI/180);
+			transform = transform.Orthonormalized(); // To handle precision errors
+		}
+		if (Input.IsActionJustPressed("rotation_right")){
+			Vector3 axis = new Vector3(0, 1, 0); // Or Vector3.Right
+			transform.Basis = transform.Basis.Rotated(axis, -rotationAmount * (float)Math.PI/180);
+			transform = transform.Orthonormalized(); // To handle precision errors
 		}
 
 		// Normalize move_direction to not move faster diagonally
@@ -69,11 +93,10 @@ public partial class RTSCameraController : CharacterBody3D {
 		velocity.Z = move_direction.Z * CamSpeed;
 
 		// Setting map and zoom borders
-		Transform3D limit = Transform;
-		limit.Origin.X = Mathf.Clamp( Transform.Origin.X, -BorderLimit.X, BorderLimit.X);
-		limit.Origin.Y = Mathf.Clamp( Transform.Origin.Y, -zoomLimit.X, zoomLimit.Y);
-		limit.Origin.Z = Mathf.Clamp( Transform.Origin.Z, -BorderLimit.Y, BorderLimit.Y);
-		Transform = limit;
+		transform.Origin.X = Mathf.Clamp( Transform.Origin.X, -BorderLimit.X, BorderLimit.X);
+		transform.Origin.Y = Mathf.Clamp( Transform.Origin.Y, -zoomLimit.X, zoomLimit.Y);
+		transform.Origin.Z = Mathf.Clamp( Transform.Origin.Z, -BorderLimit.Y, BorderLimit.Y);
+		Transform = transform;
 
 		Velocity = velocity;
 		MoveAndSlide();
