@@ -8,9 +8,9 @@ public partial class RTSCameraController : CharacterBody3D {
 	[Export]
 	public int CamSpeed = 10;
 	[Export] 
-	public Vector2 BorderLimit = new Vector2(10,30);
+	public Vector2 BorderLimit = new(10,30);
 	[Export]
-	public Vector2 zoomLimit = new Vector2(10,30);
+	public Vector2 zoomLimit = new(10,30);
 	[Export]
 	public float scroolSpeed = 2f;
 	[Export]
