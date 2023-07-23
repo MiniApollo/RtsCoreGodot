@@ -75,12 +75,12 @@ public partial class RTSCameraController : CharacterBody3D {
 
 		// Camera Rotation
 		if (Input.IsActionJustPressed("rotation_left")){
-			Vector3 axis = new Vector3(0, 1, 0); // Or Vector3.Right
+			var axis = new Vector3(0, 1, 0); // Or Vector3.Right
 			transform.Basis = transform.Basis.Rotated(axis, rotationAmount * (float)Math.PI/180);
 			transform = transform.Orthonormalized(); // To handle precision errors
 		}
 		if (Input.IsActionJustPressed("rotation_right")){
-			Vector3 axis = new Vector3(0, 1, 0); // Or Vector3.Right
+			var axis = new Vector3(0, 1, 0); // Or Vector3.Right
 			transform.Basis = transform.Basis.Rotated(axis, -rotationAmount * (float)Math.PI/180);
 			transform = transform.Orthonormalized(); // To handle precision errors
 		}
