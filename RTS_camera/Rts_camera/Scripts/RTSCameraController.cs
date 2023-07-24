@@ -18,11 +18,12 @@ public partial class RTSCameraController : CharacterBody3D {
 
 	public Vector2 MousePosition;
 	public Vector2 ScreenSize; // Size of the game window.
+	public Vector3 axis = new Vector3(0, 1, 0); // Rotation axis
+	public Vector3 move_direction = Vector3.Zero;
 	
 	public override void _PhysicsProcess(double delta) {
 
 		Vector3 velocity = Velocity;
-		Vector3 move_direction = Vector3.Zero;
 		Transform3D transform = Transform;
 
 		MousePosition = GetViewport().GetMousePosition();
@@ -75,12 +76,10 @@ public partial class RTSCameraController : CharacterBody3D {
 
 		// Camera Rotation
 		if (Input.IsActionJustPressed("rotation_left")){
-			Vector3 axis = new Vector3(0, 1, 0); // Or Vector3.Right
 			transform.Basis = transform.Basis.Rotated(axis, rotationAmount * (float)Math.PI/180);
 			transform = transform.Orthonormalized(); // To handle precision errors
 		}
 		if (Input.IsActionJustPressed("rotation_right")){
-			Vector3 axis = new Vector3(0, 1, 0); // Or Vector3.Right
 			transform.Basis = transform.Basis.Rotated(axis, -rotationAmount * (float)Math.PI/180);
 			transform = transform.Orthonormalized(); // To handle precision errors
 		}
