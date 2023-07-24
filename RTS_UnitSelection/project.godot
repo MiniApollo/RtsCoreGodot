@@ -1,0 +1,30 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Rts Unit Selection"
+run/main_scene="res://src/levels/main.tscn"
+config/features=PackedStringArray("4.1", "C#", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[dotnet]
+
+project/assembly_name="Rts Unit Selection"
+
+[layer_names]
+
+3d_physics/layer_1="clickable"
+3d_physics/layer_2="world"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

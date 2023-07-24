@@ -1,0 +1,19 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rts Unit Selection", "Rts Unit Selection.csproj", "{FAEB31CA-0058-4665-9294-7FC179420C17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+	Debug|Any CPU = Debug|Any CPU
+	ExportDebug|Any CPU = ExportDebug|Any CPU
+	ExportRelease|Any CPU = ExportRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAEB31CA-0058-4665-9294-7FC179420C17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAEB31CA-0058-4665-9294-7FC179420C17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAEB31CA-0058-4665-9294-7FC179420C17}.ExportDebug|Any CPU.ActiveCfg = ExportDebug|Any CPU
+		{FAEB31CA-0058-4665-9294-7FC179420C17}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
+		{FAEB31CA-0058-4665-9294-7FC179420C17}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{FAEB31CA-0058-4665-9294-7FC179420C17}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+	EndGlobalSection
+EndGlobal
