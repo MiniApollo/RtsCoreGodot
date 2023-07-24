@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbqfwpkvum1al"]
+
+[ext_resource type="Script" path="res://src/scripts/Camera_Selection.cs" id="1_mnjis"]
+
+[node name="Camera3D" type="Camera3D"]
+script = ExtResource("1_mnjis")

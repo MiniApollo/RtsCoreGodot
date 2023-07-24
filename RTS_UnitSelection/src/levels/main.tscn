@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bo1yvncljwnq8"]
+[gd_scene load_steps=7 format=3 uid="uid://bo1yvncljwnq8"]
+
+[ext_resource type="PackedScene" uid="uid://dbqfwpkvum1al" path="res://src/actors/Rts_camera.tscn" id="1_x1yss"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ebykv"]
 
@@ -15,8 +17,8 @@ sky = SubResource("Sky_glxg6")
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.938653, 1.79857)
+[node name="Camera3D" parent="." instance=ExtResource("1_x1yss")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.876887, 2.01099)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, -2.0768, 0)
