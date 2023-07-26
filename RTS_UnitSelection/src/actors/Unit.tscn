@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://dn7ivjeu7jg47"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8v46y"]
+albedo_color = Color(0, 0.533333, 0.560784, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qgymp"]
+material = SubResource("StandardMaterial3D_8v46y")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4wiws"]
+albedo_color = Color(0, 0.960784, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_kclyi"]
+material = SubResource("StandardMaterial3D_4wiws")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jlm5h"]
+
+[node name="Unit" type="CharacterBody3D"]
+collision_mask = 3
+
+[node name="GroundMarker" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0)
+visible = false
+mesh = SubResource("PlaneMesh_qgymp")
+
+[node name="UnitMesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_kclyi")
+
+[node name="UnitShape" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_jlm5h")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bo1yvncljwnq8"]
+[gd_scene load_steps=8 format=3 uid="uid://bo1yvncljwnq8"]
 
 [ext_resource type="PackedScene" uid="uid://dbqfwpkvum1al" path="res://src/actors/Rts_camera.tscn" id="1_x1yss"]
+[ext_resource type="PackedScene" uid="uid://dn7ivjeu7jg47" path="res://src/actors/Unit.tscn" id="2_n25g8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ebykv"]
 
@@ -22,6 +23,7 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, -2.0768, 0)
+collision_layer = 2
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 mesh = SubResource("BoxMesh_ebykv")
@@ -34,3 +36,6 @@ environment = SubResource("Environment_u6r3j")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.479106, 0.877757, 0, -0.877757, 0.479106, 0, 0, 0)
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_n25g8")]
+transform = Transform3D(-8.74228e-09, 0, -0.2, 0, 0.2, 0, 0.2, 0, -8.74228e-09, -1, -0.35878, -4.37114e-08)
