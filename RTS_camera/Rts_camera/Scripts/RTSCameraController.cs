@@ -87,6 +87,7 @@ public partial class RTSCameraController : CharacterBody3D {
 		// Normalize move_direction to not move faster diagonally
 		move_direction = move_direction.Normalized();
 
+		// Set velocity multiplied by CamSpeed
 		velocity.X = move_direction.X * CamSpeed;
 		velocity.Y = move_direction.Y * CamSpeed;
 		velocity.Z = move_direction.Z * CamSpeed;
