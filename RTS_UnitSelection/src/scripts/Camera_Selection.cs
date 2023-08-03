@@ -13,52 +13,82 @@ partial class Camera_Selection : Camera3D {
 	public int ui = 4;
 
 	private const float RayLength = 1000.0f;
+	private Vector2 MousePosition;
 
-	public override void _Input(InputEvent @event) {
-		// if mouse pressed
-		if (@event is InputEventMouseButton eventMouseButton) {
-			// if mouse button index left or right
-			if (Input.IsActionJustReleased("LeftClick") || Input.IsActionJustReleased("RightClick")) {
-				var space = GetWorld3D().DirectSpaceState;
-				var cam = this;
+	//Drag Selection
+	private Vector2 DragPosition;
+	private RectangleShape2D selectionBox = new RectangleShape2D();
 
-				Vector3 from = cam.ProjectRayOrigin(eventMouseButton.Position);
-				Vector3 to = from + cam.ProjectRayNormal(eventMouseButton.Position) * RayLength;
-				var query = PhysicsRayQueryParameters3D.Create(from,to); // third argument mask 1,2
-				var hit = space.IntersectRay(query);
+	public override void _PhysicsProcess(double delta) {
 
-				// if hit something
-				if (hit != null && hit.Count > 0) {
-					PhysicsBody3D col = (PhysicsBody3D)hit["collider"];
-					if (Input.IsActionJustReleased("LeftClick")) {
-						/* 
-						 * TODO Player and enemy unit type
-						 */
-						// if it is clickable
-						if (col.CollisionLayer == clickable) {
-							//Shift Click
-							if (Input.IsActionPressed("Shift")) {
-								Unit_Selection.ShiftClickSelect(col, UnitsSelected);
-							}
-							else {
-								Unit_Selection.ClickSelect(col, UnitsSelected);
-							}
-						}
-						// hit anything except ui and shift not pressed
-						else if (!Input.IsActionPressed("Shift") && col.CollisionLayer != ui){
-							Unit_Selection.DeselectAll(UnitsSelected);
-						}
+		MousePosition = GetViewport().GetMousePosition();
+
+		if (Input.IsActionJustPressed("LeftClick")){
+			DragPosition = MousePosition;
+		}
+		else if (Input.IsActionPressed("LeftClick")) {
+			GetChild<Draw>(0).DrawRectangle(DragPosition, MousePosition);
+		}
+		else if (Input.IsActionJustReleased("LeftClick")) {
+			// End Drag Selection
+			GetChild<Draw>(0).DrawRectangle(DragPosition, MousePosition);
+			GetChild<Draw>(0).DrawRectangle(new (0,0), new (0,0));
+
+			selectionBox.Size = (MousePosition - DragPosition).Abs();
+
+			var hit = raycastMousePos(MousePosition);
+
+			if (hit != null && hit.Count > 0) {
+				// TODO Unit Movement
+				//
+				PhysicsBody3D col = (PhysicsBody3D)hit["collider"];
+
+				// if it is clickable
+				if (col.CollisionLayer == clickable) {
+					//Shift Click
+					if (Input.IsActionPressed("Shift")) {
+						Unit_Selection.ShiftClickSelect(col, UnitsSelected);
 					}
-					else if (Input.IsActionJustReleased("RightClick")) {
-						// TODO Ground Marker
+					else {
+						Unit_Selection.ClickSelect(col, UnitsSelected);
 					}
 				}
-				// hit nothing with left click and shift not pressed
-				else if (hit == null || hit.Count < 1 && Input.IsActionJustReleased("LeftClick") && !Input.IsActionPressed("Shift")) {
+				// hit anything except ui and shift not pressed
+				else if (!Input.IsActionPressed("Shift") && col.CollisionLayer != ui){
 					Unit_Selection.DeselectAll(UnitsSelected);
 				}
 			}
+			// hit nothing with left click and shift not pressed
+			else if (hit == null || hit.Count < 1 && !Input.IsActionPressed("Shift")) {
+				Unit_Selection.DeselectAll(UnitsSelected);
+			}
 		}
+		// RightClick
+		if (Input.IsActionPressed("RightClick")) {
+			var hit = raycastMousePos(MousePosition);
 
+			if (hit != null && hit.Count > 0) {
+				PhysicsBody3D col = (PhysicsBody3D)hit["collider"];
+				if (col.CollisionLayer != ui) {
+					GD.Print("Right Click Pos: ", MousePosition);
+					// TODO Ground Marker
+					//
+				}
+			}
+		}
+	}
+	public Godot.Collections.Dictionary raycastMousePos(Vector2 MousePosition){
+
+		// TODO Drag Selection
+		//
+		var space = GetWorld3D().DirectSpaceState;
+		var cam = this;
+
+		Vector3 from = cam.ProjectRayOrigin(MousePosition);
+		Vector3 to = from + cam.ProjectRayNormal(MousePosition) * RayLength;
+		var query = PhysicsRayQueryParameters3D.Create(from,to); // third argument mask 1,2
+		var hit = space.IntersectRay(query);
+
+		return hit;
 	}
 }

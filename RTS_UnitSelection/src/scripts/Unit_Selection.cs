@@ -33,7 +33,6 @@ static class Unit_Selection {
 	}
 	public static void DeselectAll(List<PhysicsBody3D> UnitsSelected) {
 		for (int i = 0; i < UnitsSelected.Count; i++) {
-
 			UnitsSelected[i].GetChild<MeshInstance3D>(0).Hide();
 		}
 		UnitsSelected.Clear();
