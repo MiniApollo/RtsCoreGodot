@@ -4,37 +4,37 @@ using System.Collections.Generic;
 // TODO UnitMovement
 static class Unit_Selection {
 
-	public static void ClickSelect(PhysicsBody3D UnitToAdd, List<PhysicsBody3D> UnitsSelected) {
+	public static void ClickSelect(PhysicsBody3D unitToAdd, List<PhysicsBody3D> unitsSelected) {
 
-		DeselectAll(UnitsSelected);
-		UnitsSelected.Add(UnitToAdd);
-		UnitToAdd.GetChild<MeshInstance3D>(0).Show();
+		DeselectAll(unitsSelected);
+		unitsSelected.Add(unitToAdd);
+		unitToAdd.GetChild<MeshInstance3D>(0).Show();
 	}
-	public static void ShiftClickSelect(PhysicsBody3D UnitToAdd, List<PhysicsBody3D> UnitsSelected) {
-		if (!UnitsSelected.Contains(UnitToAdd)) {
-			UnitsSelected.Add(UnitToAdd);
-			UnitToAdd.GetChild<MeshInstance3D>(0).Show();
+	public static void ShiftClickSelect(PhysicsBody3D unitToAdd, List<PhysicsBody3D> unitsSelected) {
+		if (!unitsSelected.Contains(unitToAdd)) {
+			unitsSelected.Add(unitToAdd);
+			unitToAdd.GetChild<MeshInstance3D>(0).Show();
 		}
 		else {
-			UnitToAdd.GetChild<MeshInstance3D>(0).Hide();
-			UnitsSelected.Remove(UnitToAdd);
+			unitToAdd.GetChild<MeshInstance3D>(0).Hide();
+			unitsSelected.Remove(unitToAdd);
 		}
 	}
-	public static void DragSelect(PhysicsBody3D UnitToAdd, List<PhysicsBody3D> UnitsSelected) {
-		if (!UnitsSelected.Contains(UnitToAdd)) {
+	public static void DragSelect(PhysicsBody3D unitToAdd, List<PhysicsBody3D> unitsSelected) {
+		if (!unitsSelected.Contains(unitToAdd)) {
 
-			UnitsSelected.Add(UnitToAdd);
-			UnitToAdd.GetChild<MeshInstance3D>(0).Show();
+			unitsSelected.Add(unitToAdd);
+			unitToAdd.GetChild<MeshInstance3D>(0).Show();
 		}
 
 	}
-	public static void Deselect(PhysicsBody3D UnitToDeselect, List<PhysicsBody3D> UnitsSelected) {
-		UnitsSelected.Remove(UnitToDeselect);
+	public static void Deselect(PhysicsBody3D UnitToDeselect, List<PhysicsBody3D> unitsSelected) {
+		unitsSelected.Remove(UnitToDeselect);
 	}
-	public static void DeselectAll(List<PhysicsBody3D> UnitsSelected) {
-		for (int i = 0; i < UnitsSelected.Count; i++) {
-			UnitsSelected[i].GetChild<MeshInstance3D>(0).Hide();
+	public static void DeselectAll(List<PhysicsBody3D> unitsSelected) {
+		for (int i = 0; i < unitsSelected.Count; i++) {
+			unitsSelected[i].GetChild<MeshInstance3D>(0).Hide();
 		}
-		UnitsSelected.Clear();
+		unitsSelected.Clear();
 	}
 }
