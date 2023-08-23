@@ -1,10 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://bs1xxn1s501uq"]
 
-[ext_resource type="Script" path="res://Rts_camera/Scripts/RTSCameraController.cs" id="1_pc8ma"]
+[ext_resource type="Script" path="res://src/Scripts/RTSCameraController.cs" id="1_rwwo8"]
 
 [node name="Rts_camera" type="CharacterBody3D"]
-script = ExtResource("1_pc8ma")
-BorderLimit = Vector2(5, 5)
+script = ExtResource("1_rwwo8")
 zoomLimit = Vector2(0, 10)
 
 [node name="Camera3D" type="Camera3D" parent="."]
