@@ -7,7 +7,7 @@ partial class Camera_Selection : Camera3D {
 	public List<PhysicsBody3D> UnitsSelected = new List<PhysicsBody3D>();
 	public List<List<PhysicsBody3D>> ControlGroups = new List<List<PhysicsBody3D>>();
 
-	// Mask number
+	// LayerMask number
 	public int clickable = 1;
 	public int ground = 2;
 	public int ui = 4;
@@ -15,7 +15,6 @@ partial class Camera_Selection : Camera3D {
 	private const float RayLength = 1000.0f;
 	private Vector2 MousePosition;
 
-	//Drag Selection
 	private Vector2 DragPosition;
 	private RectangleShape2D selectionBox = new RectangleShape2D();
 
@@ -30,7 +29,6 @@ partial class Camera_Selection : Camera3D {
 			GetChild<Draw>(0).DrawRectangle(DragPosition, MousePosition);
 		}
 		else if (Input.IsActionJustReleased("LeftClick")) {
-			// End Drag Selection
 			GetChild<Draw>(0).DrawRectangle(DragPosition, MousePosition);
 			GetChild<Draw>(0).DrawRectangle(new (0,0), new (0,0));
 
@@ -43,9 +41,7 @@ partial class Camera_Selection : Camera3D {
 				//
 				PhysicsBody3D col = (PhysicsBody3D)hit["collider"];
 
-				// if it is clickable
 				if (col.CollisionLayer == clickable) {
-					//Shift Click
 					if (Input.IsActionPressed("Shift")) {
 						Unit_Selection.ShiftClickSelect(col, UnitsSelected);
 					}
@@ -53,17 +49,14 @@ partial class Camera_Selection : Camera3D {
 						Unit_Selection.ClickSelect(col, UnitsSelected);
 					}
 				}
-				// hit anything except ui and shift not pressed
 				else if (!Input.IsActionPressed("Shift") && col.CollisionLayer != ui){
 					Unit_Selection.DeselectAll(UnitsSelected);
 				}
 			}
-			// hit nothing with left click and shift not pressed
 			else if (hit == null || hit.Count < 1 && !Input.IsActionPressed("Shift")) {
 				Unit_Selection.DeselectAll(UnitsSelected);
 			}
 		}
-		// RightClick
 		if (Input.IsActionPressed("RightClick")) {
 			var hit = raycastMousePos(MousePosition);
 

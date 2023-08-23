@@ -4,7 +4,7 @@ using System;
 public partial class RTSCameraController : CharacterBody3D {
 
 	[Export]
-	public float ScreenEdgeBorderThickness = 40.0f; // distance from screen edge. Used for mouse movement
+	public float ScreenEdgeBorderThickness = 40.0f;
 	[Export]
 	public int CamSpeed = 10;
 	[Export] 
@@ -14,10 +14,10 @@ public partial class RTSCameraController : CharacterBody3D {
 	[Export]
 	public float scroolSpeed = 2f;
 	[Export]
-	public float rotationAmount = 45f; // degree
+	public float rotationAmount = 45f; // in degrees
 
 	public Vector2 MousePosition;
-	public Vector2 ScreenSize; // Size of the game window.
+	public Vector2 ScreenSize; 
 	public Vector3 axis = new Vector3(0, 1, 0); // Rotation axis
 	public Vector3 move_direction = Vector3.Zero;
 	
