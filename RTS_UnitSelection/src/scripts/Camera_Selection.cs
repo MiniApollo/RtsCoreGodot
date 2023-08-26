@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System.Collections.Generic;
 
 partial class Camera_Selection : Camera3D {
@@ -12,68 +13,46 @@ partial class Camera_Selection : Camera3D {
 	public int ground = 2;
 	public int ui = 4;
 
-	private const float rayLength = 1000.0f;
+	private const float rayLength = 100.0f;
 	private Vector2 mousePosition;
 
-	private Vector2 dragPosition;
-	private RectangleShape2D selectionBox = new RectangleShape2D();
+	private Vector2 drawStartPosition;
+	private Vector3 dragStartVector;
+
+	private BoxShape3D selectionBox = new BoxShape3D();
 
 	public override void _PhysicsProcess(double delta) {
 
 		mousePosition = GetViewport().GetMousePosition();
 
 		if (Input.IsActionJustPressed("LeftClick")){
-			dragPosition = mousePosition;
+			drawStartPosition = mousePosition;
+			if(rayToMousePosition(mousePosition).Count > 0) {
+				dragStartVector = (Vector3)rayToMousePosition(mousePosition)["position"];
+			}
 		}
 		else if (Input.IsActionPressed("LeftClick")) {
-			GetChild<Draw>(0).DrawRectangle(dragPosition, mousePosition);
+			GetChild<Draw>(0).DrawRectangle(drawStartPosition, mousePosition);
 		}
 		else if (Input.IsActionJustReleased("LeftClick")) {
-			GetChild<Draw>(0).DrawRectangle(dragPosition, mousePosition);
+			GetChild<Draw>(0).DrawRectangle(drawStartPosition, mousePosition);
 			GetChild<Draw>(0).DrawRectangle(new (0,0), new (0,0));
 
-			selectionBox.Size = (mousePosition - dragPosition).Abs();
+			var hit = rayToMousePosition(mousePosition);
 
-			var hit = raycastMousePos(mousePosition);
+			clickSelection(hit);
 
-			if (hit != null && hit.Count > 0) {
-				// TODO Unit Movement
-				//
-				PhysicsBody3D col = (PhysicsBody3D)hit["collider"];
-
-				if (col.CollisionLayer == clickable) {
-					if (Input.IsActionPressed("Shift")) {
-						Unit_Selection.ShiftClickSelect(col, unitsSelected);
-					}
-					else {
-						Unit_Selection.ClickSelect(col, unitsSelected);
-					}
-				}
-				else if (!Input.IsActionPressed("Shift") && col.CollisionLayer != ui){
-					Unit_Selection.DeselectAll(unitsSelected);
-				}
-			}
-			else if (hit == null || hit.Count < 1 && !Input.IsActionPressed("Shift")) {
-				Unit_Selection.DeselectAll(unitsSelected);
+			if(hit.Count > 0) {
+				dragSelect(dragStartVector,(Vector3)hit["position"]);
 			}
 		}
 		if (Input.IsActionPressed("RightClick")) {
-			var hit = raycastMousePos(mousePosition);
-
-			if (hit != null && hit.Count > 0) {
-				PhysicsBody3D col = (PhysicsBody3D)hit["collider"];
-				if (col.CollisionLayer != ui) {
-					GD.Print("Right Click Pos: ", mousePosition);
-					// TODO Ground Marker
-					//
-				}
-			}
+			var hit = rayToMousePosition(mousePosition);
+			rightClick(hit);
 		}
 	}
-	public Godot.Collections.Dictionary raycastMousePos(Vector2 mousePosition){
+	public Dictionary rayToMousePosition(Vector2 mousePosition){
 
-		// TODO Drag Selection
-		//
 		var space = GetWorld3D().DirectSpaceState;
 		var cam = this;
 
@@ -83,5 +62,66 @@ partial class Camera_Selection : Camera3D {
 		var hit = space.IntersectRay(query);
 
 		return hit;
+	}
+
+	public void dragSelect(Vector3 dragStart, Vector3 dragEnd){
+		/*
+		 * Size takes world cordinates(meters) and mousePosition is in viewport cordinates
+		 * need a raycast to know where is mouse position in world 
+		 * to calculate distance and center between dragStart dragEnd for Size, position(origin)
+		 */
+		var space = GetWorld3D().DirectSpaceState;
+		var query = new PhysicsShapeQueryParameters3D();
+
+		// abs needed because Size cannot be negative
+		selectionBox.Size = new Vector3(dragStart.X - dragEnd.X, rayLength, dragStart.Z - dragEnd.Z).Abs();
+		query.Shape = selectionBox;
+
+		Transform3D transform = query.Transform;
+		// rayLenght can't be half the units be on top of the box and not get selected 
+		transform.Origin = new Vector3((dragEnd.X + dragStart.X)/2 , rayLength/4, (dragEnd.Z + dragStart.Z)/2);
+		query.Transform = transform;
+
+		var selected = space.IntersectShape(query); // default max select number is 32 so "intersect_shape(query, <number>)"
+
+		for (int i = 0; i < selected.Count; i++) {
+			PhysicsBody3D unitToAdd = (PhysicsBody3D)selected[i]["collider"];
+			if (unitToAdd.CollisionLayer == clickable) {
+				Unit_Selection.DragSelect(unitToAdd,unitsSelected);
+			}
+		}
+	}
+
+	public void clickSelection(Dictionary hit){
+		if (hit != null && hit.Count > 0) {
+			// TODO Unit Movement
+			//
+			PhysicsBody3D collider = (PhysicsBody3D)hit["collider"];
+
+			if (collider.CollisionLayer == clickable) {
+				if (Input.IsActionPressed("Shift")) {
+					Unit_Selection.ShiftClickSelect(collider, unitsSelected);
+				}
+				else {
+					Unit_Selection.ClickSelect(collider, unitsSelected);
+				}
+			}
+			else if (!Input.IsActionPressed("Shift") && collider.CollisionLayer != ui){
+				Unit_Selection.DeselectAll(unitsSelected);
+			}
+		}
+		else if (hit == null || hit.Count < 1 && !Input.IsActionPressed("Shift")) {
+			Unit_Selection.DeselectAll(unitsSelected);
+		}
+	}
+
+	public void rightClick(Dictionary hit){
+		if (hit != null && hit.Count > 0) {
+			PhysicsBody3D collider = (PhysicsBody3D)hit["collider"];
+			if (collider.CollisionLayer != ui) {
+				// TODO Ground Marker
+				//
+			}
+		}
 	}
 }

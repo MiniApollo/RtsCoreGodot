@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Draw : Node2D {
 
@@ -14,9 +13,9 @@ public partial class Draw : Node2D {
 	private Vector2 dragEnd;
 
 	// This function is needed because _Draw can't have arguments
-	public void DrawRectangle(Vector2 iDragStart, Vector2 iDragEnd) {
-		dragStart = iDragStart;
-		dragEnd = iDragEnd;
+	public void DrawRectangle(Vector2 aDragStart, Vector2 aDragEnd) {
+		dragStart = aDragStart;
+		dragEnd = aDragEnd;
 		QueueRedraw();
 	}
 
