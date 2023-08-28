@@ -9,9 +9,15 @@ partial class Camera_Selection : Camera3D {
 	public List<List<PhysicsBody3D>> controlGroups = new List<List<PhysicsBody3D>>();
 
 	// LayerMask number
+	[Export]
 	public int clickable = 1;
+	[Export]
 	public int ground = 2;
+	[Export]
 	public int ui = 4;
+
+	[Export]
+	public MeshInstance3D groundMarker = new MeshInstance3D();
 
 	private const float rayLength = 100.0f;
 	private Vector2 mousePosition;
@@ -82,7 +88,7 @@ partial class Camera_Selection : Camera3D {
 		transform.Origin = new Vector3((dragEnd.X + dragStart.X)/2 , rayLength/4, (dragEnd.Z + dragStart.Z)/2);
 		query.Transform = transform;
 
-		var selected = space.IntersectShape(query); // default max select number is 32 so "intersect_shape(query, <number>)"
+		var selected = space.IntersectShape(query,256); // default max select number is 32 so "intersect_shape(query, <number>)"
 
 		for (int i = 0; i < selected.Count; i++) {
 			PhysicsBody3D unitToAdd = (PhysicsBody3D)selected[i]["collider"];
@@ -94,8 +100,6 @@ partial class Camera_Selection : Camera3D {
 
 	public void clickSelection(Dictionary hit){
 		if (hit != null && hit.Count > 0) {
-			// TODO Unit Movement
-			//
 			PhysicsBody3D collider = (PhysicsBody3D)hit["collider"];
 
 			if (collider.CollisionLayer == clickable) {
@@ -108,10 +112,12 @@ partial class Camera_Selection : Camera3D {
 			}
 			else if (!Input.IsActionPressed("Shift") && collider.CollisionLayer != ui){
 				Unit_Selection.DeselectAll(unitsSelected);
+				groundMarker.Visible = false;
 			}
 		}
 		else if (hit == null || hit.Count < 1 && !Input.IsActionPressed("Shift")) {
 			Unit_Selection.DeselectAll(unitsSelected);
+			groundMarker.Visible = false;
 		}
 	}
 
@@ -119,8 +125,19 @@ partial class Camera_Selection : Camera3D {
 		if (hit != null && hit.Count > 0) {
 			PhysicsBody3D collider = (PhysicsBody3D)hit["collider"];
 			if (collider.CollisionLayer != ui) {
-				// TODO Ground Marker
-				//
+				groundMarker.Position = (Vector3)hit["position"];
+				groundMarker.Rotation = new (0,0,0);
+				groundMarker.Visible = true;
+
+				if (unitsSelected.Count > 0) {
+					for (int i = 0; i < unitsSelected.Count; i++) {
+						var unitselect = GetNode<pathFinding>(unitsSelected[i].GetPath());
+						unitselect.CalculatemovementTarget((Vector3)hit["position"]);
+					}
+				}
+			}
+			else {
+				groundMarker.Visible = false;
 			}
 		}
 	}

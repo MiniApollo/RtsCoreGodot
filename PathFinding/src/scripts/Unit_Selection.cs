@@ -1,7 +1,6 @@
 using Godot;
 using System.Collections.Generic;
 
-// TODO UnitMovement
 static class Unit_Selection {
 
 	public static void ClickSelect(PhysicsBody3D unitToAdd, List<PhysicsBody3D> unitsSelected) {

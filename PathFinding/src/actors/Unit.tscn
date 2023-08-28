@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn7ivjeu7jg47"]
+[gd_scene load_steps=7 format=3 uid="uid://dn7ivjeu7jg47"]
+
+[ext_resource type="Script" path="res://src/scripts/pathFinding.cs" id="1_2pcr2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8v46y"]
 albedo_color = Color(0, 0.533333, 0.560784, 1)
@@ -15,7 +17,9 @@ material = SubResource("StandardMaterial3D_4wiws")
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jlm5h"]
 
 [node name="Unit" type="CharacterBody3D"]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
 collision_mask = 3
+script = ExtResource("1_2pcr2")
 
 [node name="GroundMarker" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0)
@@ -27,3 +31,6 @@ mesh = SubResource("CapsuleMesh_kclyi")
 
 [node name="UnitShape" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_jlm5h")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true

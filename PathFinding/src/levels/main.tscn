@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://bo1yvncljwnq8"]
+
+[ext_resource type="PackedScene" uid="uid://dbqfwpkvum1al" path="res://src/actors/Rts_camera.tscn" id="1_x1yss"]
+[ext_resource type="PackedScene" uid="uid://dn7ivjeu7jg47" path="res://src/actors/Unit.tscn" id="2_n25g8"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ebykv"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_b5rje"]
+vertices = PackedVector3Array(-0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, -0.5)
+polygons = [PackedInt32Array(0, 2, 4), PackedInt32Array(2, 6, 4), PackedInt32Array(1, 3, 5), PackedInt32Array(3, 7, 5), PackedInt32Array(8, 10, 12), PackedInt32Array(10, 14, 12), PackedInt32Array(9, 11, 13), PackedInt32Array(11, 15, 13), PackedInt32Array(16, 18, 20), PackedInt32Array(18, 22, 20), PackedInt32Array(17, 19, 21), PackedInt32Array(19, 23, 21)]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lphxg"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_5tivx"]
+
+[sub_resource type="Sky" id="Sky_glxg6"]
+sky_material = SubResource("ProceduralSkyMaterial_5tivx")
+
+[sub_resource type="Environment" id="Environment_u6r3j"]
+background_mode = 2
+sky = SubResource("Sky_glxg6")
+
+[node name="main" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -1.0768, 0)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_ebykv")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="StaticBody3D/MeshInstance3D"]
+navigation_mesh = SubResource("NavigationMesh_b5rje")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_lphxg")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_u6r3j")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.479106, 0.877757, 0, -0.877757, 0.479106, 0, 0, 0)
+
+[node name="Rts_camera" parent="." instance=ExtResource("1_x1yss")]
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 6.59523, 6.57335)
+
+[node name="Node" type="Node" parent="."]
+
+[node name="Unit" parent="Node" instance=ExtResource("2_n25g8")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, -2)
+
+[node name="Unit2" parent="Node" instance=ExtResource("2_n25g8")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, -1.50975)
+
+[node name="Unit3" parent="Node" instance=ExtResource("2_n25g8")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, -0.758981)
+
+[node name="Unit4" parent="Node" instance=ExtResource("2_n25g8")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 1.83567)
+
+[node name="Unit5" parent="Node" instance=ExtResource("2_n25g8")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0.84005, 0, -2)

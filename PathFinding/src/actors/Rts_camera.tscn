@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dbqfwpkvum1al"]
+
+[ext_resource type="Script" path="res://src/scripts/Camera_Selection.cs" id="1_mnjis"]
+[ext_resource type="Script" path="res://src/scripts/Draw.cs" id="2_b4vli"]
+[ext_resource type="PackedScene" uid="uid://7k5oi4xpk8cy" path="res://src/actors/groundMarker.tscn" id="3_hocon"]
+
+[node name="Camera3D" type="Camera3D" node_paths=PackedStringArray("groundMarker")]
+script = ExtResource("1_mnjis")
+groundMarker = NodePath("MeshInstance3D")
+
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("2_b4vli")
+
+[node name="MeshInstance3D" parent="." instance=ExtResource("3_hocon")]
+top_level = true
