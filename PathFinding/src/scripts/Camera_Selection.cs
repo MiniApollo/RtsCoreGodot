@@ -46,7 +46,7 @@ partial class Camera_Selection : Camera3D {
 
 			var hit = rayToMousePosition(mousePosition);
 
-			clickSelection(hit);
+			leftClickSelect(hit,unitsSelected);
 
 			if(hit.Count > 0) {
 				dragSelect(dragStartVector,(Vector3)hit["position"]);
@@ -54,7 +54,7 @@ partial class Camera_Selection : Camera3D {
 		}
 		if (Input.IsActionPressed("RightClick")) {
 			var hit = rayToMousePosition(mousePosition);
-			rightClick(hit);
+			rightClick(hit,unitsSelected);
 		}
 	}
 	public Dictionary rayToMousePosition(Vector2 mousePosition){
@@ -97,9 +97,15 @@ partial class Camera_Selection : Camera3D {
 			}
 		}
 	}
+	public bool hitSomeThing(Dictionary hitPoint) {
+		if(hitPoint != null && hitPoint.Count > 0){
+			return true;
+		}
+		return false;
+	}
 
-	public void clickSelection(Dictionary hit){
-		if (hit != null && hit.Count > 0) {
+	public void leftClickSelect(Dictionary hit, List<PhysicsBody3D> unitToAdd){
+		if (hitSomeThing(hit)) {
 			PhysicsBody3D collider = (PhysicsBody3D)hit["collider"];
 
 			if (collider.CollisionLayer == clickable) {
@@ -115,14 +121,14 @@ partial class Camera_Selection : Camera3D {
 				groundMarker.Visible = false;
 			}
 		}
-		else if (hit == null || hit.Count < 1 && !Input.IsActionPressed("Shift")) {
+		else if (!hitSomeThing(hit) && !Input.IsActionPressed("Shift")) {
 			Unit_Selection.DeselectAll(unitsSelected);
 			groundMarker.Visible = false;
 		}
 	}
 
-	public void rightClick(Dictionary hit){
-		if (hit != null && hit.Count > 0) {
+	public void rightClick(Dictionary hit, List<PhysicsBody3D> unitsToMove){
+		if (hitSomeThing(hit)) {
 			PhysicsBody3D collider = (PhysicsBody3D)hit["collider"];
 			if (collider.CollisionLayer != ui) {
 				groundMarker.Position = (Vector3)hit["position"];
@@ -131,8 +137,8 @@ partial class Camera_Selection : Camera3D {
 
 				if (unitsSelected.Count > 0) {
 					for (int i = 0; i < unitsSelected.Count; i++) {
-						var unitselect = GetNode<pathFinding>(unitsSelected[i].GetPath());
-						unitselect.CalculatemovementTarget((Vector3)hit["position"]);
+						var unit = GetNode<pathFinding>(unitsToMove[i].GetPath());
+						unit.CalculatemovementTarget((Vector3)hit["position"]);
 					}
 				}
 			}
