@@ -7,7 +7,7 @@ public partial class Draw : Node2D {
 	 * because node2d has these properties
 	 */
 
-    public Color selectionBoxColor = new Color(Colors.DarkGreen, 0.5f);
+    public Color selectionBoxColor = new(Colors.DarkGreen, 0.5f);
 
     private Vector2 dragStart;
     private Vector2 dragEnd;

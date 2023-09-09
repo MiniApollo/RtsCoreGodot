@@ -8,9 +8,9 @@ public partial class RTSCameraController : CharacterBody3D {
     [Export]
     public int camSpeed = 10;
     [Export]
-    public Vector2 borderLimit = new Vector2(10, 30);
+    public Vector2 borderLimit = new (10, 30);
     [Export]
-    public Vector2 zoomLimit = new Vector2(10, 30);
+    public Vector2 zoomLimit = new (10, 30);
     [Export]
     public float scroolSpeed = 2f;
     [Export]
@@ -18,7 +18,7 @@ public partial class RTSCameraController : CharacterBody3D {
 
     public Vector2 mousePosition;
     public Vector2 screenSize;
-    public Vector3 axis = new Vector3(0, 1, 0); // Rotation axis
+    public Vector3 axis = new (0, 1, 0); // Rotation axis
     public Vector3 move_direction = Vector3.Zero;
 
     public override void _PhysicsProcess(double delta) {

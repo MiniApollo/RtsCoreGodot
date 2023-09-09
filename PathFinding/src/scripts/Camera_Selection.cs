@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 partial class Camera_Selection : Camera3D {
 
-    public List<PhysicsBody3D> unitList = new List<PhysicsBody3D>();
-    public List<PhysicsBody3D> unitsSelected = new List<PhysicsBody3D>();
-    public List<List<PhysicsBody3D>> controlGroups = new List<List<PhysicsBody3D>>();
+    public List<PhysicsBody3D> unitList = new();
+    public List<PhysicsBody3D> unitsSelected = new();
+    public List<List<PhysicsBody3D>> controlGroups = new();
 
     // LayerMask number
     [Export]
@@ -17,7 +17,7 @@ partial class Camera_Selection : Camera3D {
     public int ui = 4;
 
     [Export]
-    public MeshInstance3D groundMarker = new MeshInstance3D();
+    public MeshInstance3D groundMarker = new();
 
     private const float rayLength = 100.0f;
     private Vector2 mousePosition;
@@ -25,7 +25,7 @@ partial class Camera_Selection : Camera3D {
     private Vector2 drawStartPosition;
     private Vector3 dragStartVector;
 
-    private BoxShape3D selectionBox = new BoxShape3D();
+    private BoxShape3D selectionBox = new();
 
     public override void _PhysicsProcess(double delta) {
 
@@ -42,7 +42,7 @@ partial class Camera_Selection : Camera3D {
         }
         else if (Input.IsActionJustReleased("LeftClick")) {
             GetChild<Draw>(0).DrawRectangle(drawStartPosition, mousePosition);
-            GetChild<Draw>(0).DrawRectangle(new(0, 0), new(0, 0));
+            GetChild<Draw>(0).DrawRectangle(new Vector2(0, 0), new Vector2(0, 0));
 
             var hit = rayToMousePosition(mousePosition);
 
@@ -132,7 +132,7 @@ partial class Camera_Selection : Camera3D {
             PhysicsBody3D collider = (PhysicsBody3D)hit["collider"];
             if (collider.CollisionLayer != ui) {
                 groundMarker.Position = (Vector3)hit["position"];
-                groundMarker.Rotation = new(0, 0, 0);
+                groundMarker.Rotation = new Vector3(0, 0, 0);
                 groundMarker.Visible = true;
 
                 if (unitsSelected.Count > 0) {
