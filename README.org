@@ -1,0 +1,21 @@
+Title: RtsCoreGodot
+#+Author: MiniApollo
+#+Description: This repository contains the basic parts for rts like games in godot 
+#+Startup: showeverything
+#+Options: toc:2
+
+* Table Of Content :toc:
+- [[#completed-features][Completed features]]
+- [[#planned-features][Planned features]]
+
+* Completed features
+- RTS_camera
+- PathFinding
+
+* Planned features 
+- Combat system (health attack)
+- Recourse gathering
+- Building system with workers
+- Unit production
+- UI (with minimap)
+
