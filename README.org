@@ -1,4 +1,4 @@
-Title: RtsCoreGodot
+#+Title: RtsCoreGodot
 #+Author: MiniApollo
 #+Description: This repository contains the basic parts for rts like games in godot 
 #+Startup: showeverything
