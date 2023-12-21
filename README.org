@@ -4,7 +4,7 @@
 #+Startup: showeverything
 #+Options: toc:2
 
-* Table Of Content :toc:
+* Table Of Contents :toc:
 - [[#completed-features][Completed features]]
 - [[#planned-features][Planned features]]
 
